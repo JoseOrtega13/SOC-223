@@ -59,3 +59,13 @@ ggplot(data = corruptDF, mapping = aes(x = HDI2017, y = CPI2017)) +
   geom_point() +
 geom_smooth(method = "lm", se = FALSE)
 ```
+
+The "regression line" suggests that there is a positive relationship between the two variables HDI and CPI of 2017. The more human development the more corruption over time.
+
+## Question 5
+
+```{r}
+ggplot(data = corruptDF, mapping = aes(x = HDI2017, y = CPI2017)) + 
+  geom_point() +
+geom_smooth(method = "lm", se = FALSE)
+```
