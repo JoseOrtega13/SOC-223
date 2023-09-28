@@ -1,0 +1,18 @@
+---
+title: "my hw"
+format: html
+editor: visual
+embed-resources: true
+---
+
+## Notes
+
+some code
+
+```{r}
+2+2
+
+data("mtcars")
+
+mtcars
+```

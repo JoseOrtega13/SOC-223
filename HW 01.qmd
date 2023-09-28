@@ -1,0 +1,125 @@
+---
+title: "HW 1"
+author: "jose ortega"
+format: html
+embed-resources: true
+editor: visual
+---
+
+## 
+
+## **Question 1:**
+
+I installed the three packages. But I did it in the console as I was instructed to do.
+
+## **Question 2:**
+
+```         
+```
+
+```{r}
+library(causact)
+library(dplyr)
+library(igraph)
+```
+
+```         
+```
+
+df \<- as_data_frame(x = c(1,2,3))
+
+Says Error in \`ensure_igraph()\`:
+! Must provide a graph object (provided wrong object type).
+Backtrace:
+ 1. igraph::as_data_frame(x = c(1, 2, 3))
+2. igraph:::ensure_igraph(x)
+
+```{r}
+df <- dplyr::as_data_frame(x = c(1,2,3))
+```
+
+```{r}
+glimpse(df)
+```
+
+This worked because we specified it as dplyr.
+
+```{r}
+?n_distinct()
+```
+
+```{r}
+x <- c(5,6,2,7,9,1)
+n_distinct(x)
+```
+
+We had not specified dplyr and we were using igraph as it was the most recent version we downloaded.
+
+## **Question 3**
+
+```{r}
+?n_distinct()
+```
+
+n_distinct basically says how many different sets of a single number there are. In question 2 with a total of 6 numbers, each number was presented only once so it was \[1\] with 6 numbers.
+
+## **Question 4**
+
+```{r}
+glimpse(baseballData)
+```
+
+12,145 rows
+
+5 columns
+
+Home is a categorical variable and HomeScore is quantitative variable
+
+## **Question 5**
+
+```{r}
+baseballData[1,]
+```
+
+One row corresponds to a specific observation. Here, the observation is a specific baseball game.
+
+```{r}
+baseballData[,2:3] %>% head()
+```
+
+These columns correspond to the variables which are related top the different observations.
+
+## **Question 6**
+
+```{r}
+name <-
+  c(
+    "Wayne Gretzky",
+    "Gordie Howe",
+    "Jaromir Jagr",
+    "Brett Hull",
+    "Marcel Dionne",
+    "Phil Esposito" ,
+    "Mike Gartner",
+    "Alex Ovechkin",
+    "Mark Messier" ,
+    "Steve Yzerman"
+  )
+
+goals <- c(894, 801, 766, 741, 731, 717, 708, 700, 694, 692)
+
+year_started <- c(1979, 1946, 1990, 1986, 1971, 1963, 1979, 2005, 1979, 1983)
+```
+
+```{r}
+dr <- tibble(
+  goals=goals,
+  year_started=year_started,
+  name=name,
+)
+glimpse(df)
+```
+
+```{r}
+## simplest version
+```

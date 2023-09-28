@@ -1,0 +1,61 @@
+---
+title: "DV 1-3"
+author: "Jose Ortega"
+format: html
+embeded-resources: true
+editor: visual
+---
+
+## HW 5
+
+## Question 1
+
+```{r}
+library(tidyverse)
+# Read in the data 
+exercise_data <- read_csv("https://raw.githubusercontent.com/vaiseys/dav-course/main/Data/visualize_data.csv")
+glimpse(exercise_data)
+```
+
+My guess is that people who exercise more will have a higher BMI.
+
+```{r}
+cor(exercise_data$Exercise, exercise_data$BMI)
+```
+
+The output indicates the correlation between exercise and BMI.
+
+```{r}
+ggplot(data = exercise_data, mapping = aes(x = Exercise, y = BMI)) + 
+  geom_point()
+```
+
+## Question 2
+
+```{r}
+library(causact)
+glimpse(corruptDF)
+```
+
+```{r}
+?corruptDF
+```
+
+CPI2017 and HDI2017 describe the Corruption Index for countries across the world in 2017 and the Human Development Index for countries across the world in 2017.
+
+## Question 3
+
+```{r}
+ggplot(data = corruptDF, mapping = aes(x = HDI2017, y = CPI2017)) + 
+  geom_point()
+```
+
+CPI and HDI have a positive relationship where as one increases, the other increases as well over time.
+
+## Question 4
+
+```{r}
+ggplot(data = corruptDF, mapping = aes(x = HDI2017, y = CPI2017)) + 
+  geom_point() +
+geom_smooth(method = "lm", se = FALSE)
+```

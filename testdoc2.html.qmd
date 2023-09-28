@@ -1,0 +1,14 @@
+---
+title: "testdoc2"
+format: html
+editor: visual
+embed-resources: true
+---
+
+## Notes
+
+```{r}
+library(tidyverse)
+
+mtcars
+```

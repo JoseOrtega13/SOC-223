@@ -1,0 +1,163 @@
+---
+title: "HW3"
+author: "Jose Ortega"
+format: html
+embeded-resources: true
+editor: visual
+---
+
+## HW3
+
+## 
+
+```{r}
+library(tidyverse)
+
+mario_kart <- read_csv("https://raw.githubusercontent.com/NicolasRestrep/223_course/main/Data/world_records.csv")
+
+glimpse(mario_kart)
+
+
+```
+
+## **Question 1**
+
+```{r}
+three_laps <- mario_kart %>% filter(type == "Three Lap")
+view(three_laps)
+```
+
+```{r}
+Rainbow_Road <- three_laps %>% 
+  filter(track == "Rainbow Road")
+view (Rainbow_Road)
+```
+
+This one contains only Rainbow Road.
+
+## **Question 2**
+
+```{r}
+summary_RainbowRoad <- Rainbow_Road %>% 
+  summarize(mean = mean(time, na.rm = TRUE), 
+            std_dev = sd(time, na.rm = TRUE))
+summary_RainbowRoad
+```
+
+The average time at Rainbow Road is 275.6336 units and the standard deviation is 91.81962 units.
+
+```{r}
+other_tracks <- three_laps %>% 
+  filter(track != "Rainbow Road")
+view(other_tracks)
+```
+
+```{r}
+summary_othertracks <- other_tracks %>% 
+  summarize(mean = mean(time, na.rm = TRUE), 
+            std_dev = sd(time, na.rm = TRUE))
+summary_othertracks
+```
+
+Comparing the average time and standard deviation of records set at Rainbow Road to the average time and standard deviation at all other tracks, we see that there were quicker times and a lower standard deviation at all other tracks, which was suspected, considering my experiences at Rainbow Road in my youth days on the WII.
+
+## **Question 3**
+
+```{r}
+summary_othertracks <- other_tracks %>% 
+  group_by(track) %>% 
+  summarize(time = n())
+summary_othertracks
+```
+
+This data set is grouped by track.
+
+```{r}
+summary_othertracks %>%
+arrange(desc(time))
+
+```
+
+The track with the most records according to the data that shows the most records at each track is Toad's Turnpike with 124.
+
+## **Question 4**
+
+```{r}
+summary_threelapsbytrack <- three_laps %>% 
+  group_by(player, track) %>% 
+  summarize(count = n())
+
+summary_threelapsbytrack %>%
+arrange(desc(count))
+
+```
+
+Penev was the player with the most records at one track with 26 records at the track Choco Mountain.
+
+## **Question 5**
+
+```{r}
+summary_threelaps <- three_laps  %>%
+    group_by(track) %>%
+  summarize (mean = mean(time, na.rm = TRUE))
+summary_threelaps
+
+summary_threelaps %>%
+  arrange(desc(mean))
+```
+
+Rainbow Road has the highest average time according to the data with 275.63364 units.
+
+```{r}
+three_laps %>%
+  group_by(track) %>%
+  arrange(time) %>%
+  select(track, time) %>%
+  slice(1) %>%
+  arrange(time)
+```
+
+This displays each track and the lowest time for each. Wario Stadium has the lowest time in the data.
+
+## Question 6
+
+```{r}
+recordhundred <- three_laps %>%
+filter(record_duration >= 100)
+view(recordhundred)
+```
+
+The new variable is created for records held for 100 days or longer.
+
+```{r}
+summary_recordhundred <- recordhundred %>%
+  rename( record_hund = record_duration) %>%
+  group_by(player) %>%
+  arrange(desc(record_hund)) %>%
+  select(player) %>%
+   summarize(record_hund = n()) 
+
+summary_recordhundred
+summary_recordhundred %>%
+  arrange(desc(record_hund))
+```
+
+Player MR has the most long day duration records with 81. The rest are listed in the table above.
+
+## **Question 7**
+
+```{r}
+drivers <- read_csv("https://raw.githubusercontent.com/NicolasRestrep/223_course/main/Data/drivers.csv")
+```
+
+```{r}
+playernation <- three_laps %>%
+left_join(drivers, by = "player") %>%
+  select(player, nation, records)
+
+view(playernation)
+```
+
+```{r}
+ggplot(data = drivers, mapping = aes(x = nation)) + geom_bar(position = position_dodge(preserve = "single")) + theme(axis.text.x = element_text(angle = 20, size =7))
+```

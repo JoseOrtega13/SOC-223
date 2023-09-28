@@ -1,0 +1,139 @@
+---
+title: "HW 2"
+author: "Jose Ortega"
+format: html
+embed-resources: true
+editor: visual
+---
+
+## **HW2** 
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+olympics  <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-07-27/olympics.csv')
+glimpse(olympics)
+
+```
+
+```{r}
+glimpse(olympics)
+```
+
+```{r}
+table(olympics$medal)
+```
+
+## **Question 1**
+
+```{r}
+library(tidyverse)
+
+olympics  <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-07-27/olympics.csv')
+glimpse(olympics)
+
+table(olympics$medal)
+
+
+
+gold_medalists <- olympics %>%
+  filter(medal == "Gold")
+```
+
+There are 13372 rows resulting from the data for gold medalists.
+
+## Question 2
+
+```{r}
+ggplot(data = gold_medalists, 
+       mapping= aes(x= year, y= age)) +
+
+geom_point(alpha=0.2)
+```
+
+The most appropriate graph for this data is a scatter plot. The data hows that the athletes get younger as the years increase. **The solution to over plotting is changing the transparency/ opacity to see the data points more clearly and highlight the more valuable data through alpha.**
+
+## **Question 3**
+
+```{r}
+us_medals <- gold_medalists %>% 
+  filter(noc == "USA") %>% 
+  group_by(year) %>% 
+  summarise(num_medals = n())
+```
+
+```         
+
+```
+
+```{r}
+ggplot(data= us_medals,
+       mapping= aes(x=year, y= num_medals)) +
+  geom_line()
+```
+
+The most successful year was around 1982-83. There are more squiggly lines towards the end of the graph because of the increase in competition as a guess.
+
+## **Question 4**
+
+```{r}
+two_events <- gold_medalists %>%
+  filter(
+    event == "Gymnastics Men's Individual All-Around" | 
+      event == "Gymnastics Women's Individual All-Around" |
+      event == "Athletics Women's 100 metres"   |
+      event == "Athletics Men's 100 metres"
+  ) 
+```
+
+```{r}
+gymnastics <- gold_medalists %>%
+  filter(event == "Gymnastics Men's Individual All-Around" | 
+      event == "Gymnastics Women's Individual All-Around")
+
+
+```
+
+This filters to just Gymnastics events.
+
+```{r}
+ggplot(data = gymnastics, mapping = aes(x = age)) +
+  geom_histogram(color= "white")
+```
+
+This histogram shows the age of each athlete and how many athletes there are at the specific age.
+
+```{r}
+ggplot(data = gymnastics, mapping = aes(x = age)) +
+  geom_histogram(color= "white") +
+  facet_wrap (~event)
+
+```
+
+Based on the data, men seem to be older in this data for gymnastics.
+
+## **Question 5**
+
+```{r}
+ggplot(data = two_events, mapping = aes(x = event, y= height)) +
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 20, size = 6))
+  
+```
+
+The data shows that on average, male runners and male gymnasts are taller than the female runners and female gymnasts.
+
+## **Question 6**
+
+```{r}
+us_medalists <- gold_medalists %>% 
+  filter(noc == "USA")
+```
+
+```{r}
+ggplot(data = us_medalists, mapping = aes(x = year, color= sex, group= sex, fill= sex)) +
+  geom_bar(position= "dodge")
+```
+
+Over the years, the number of gold medals increased on average, with a bit of a decrease between years in the 2000s. The males substantially have gained more medals than the females, but the females have a greater increase from 1990-2000.

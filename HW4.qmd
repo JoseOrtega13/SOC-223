@@ -1,0 +1,85 @@
+---
+title: "HW4"
+format: html
+embed-resources: true
+editor: visual
+---
+
+## **Chapter 4**
+
+```{r}
+#| message: false
+library(tidyr)
+library(tidyverse)
+library(readr)
+```
+
+## **Question 1**
+
+```{r}
+nfl_sal <- read_csv("https://raw.githubusercontent.com/vaiseys/dav-course/main/Data/nfl_salaries.csv")
+```
+
+Here, I have installed the raw data and passed it as an argument.
+
+## **Question 2**
+
+```{r}
+nfl_sal_tidy <- nfl_sal %>% 
+  pivot_longer(names_to = "position", 
+               values_to = "salary",
+               cols = Cornerback:`Wide Receiver`)
+nfl_sal_tidy
+
+```
+
+Now, I have reshaped the table and made it "tidy" with three columns for "year", "position", and "salary".
+
+## **Question 3**
+
+```{r}
+qb_sal <- nfl_sal_tidy %>% 
+  filter(position == "Quarterback")
+```
+
+ggplot(data = qb_sal, mapping = aes(x = salary)) +
+
+geom_histogram()
+
+options(scipen=999)
+
+```{r}
+ggplot(data = qb_sal, mapping = aes(x = salary)) +
+  geom_histogram()
+options(scipen=999)
+```
+
+Here, I have filtered a histogram to only have Quarterback with salary on the x-axis.
+
+```{r}
+ggplot(data = qb_sal, mapping = aes(x = salary)) +
+  geom_histogram(color= "White") +
+  facet_wrap(~ year) +
+theme(axis.text.x = element_text(angle = 20, size = 7))
+```
+
+Now, I have used pivot_longer to make a histopgram for each year. The salaries of NFL Quarterbacks increases over the years from 2011-2018. Also, in each individual year, the amount of Quarterbacks getting paid a higher amount of salary increases over time.
+
+## **Question 4**
+
+```{r}
+summary_nfl_sal <- nfl_sal_tidy %>% 
+  group_by(position, year) %>% 
+  summarize(salary= mean(salary, na.rm = TRUE))
+summary_nfl_sal
+```
+
+Here, I used the group_by summarize combo to create a new data set for average salary for each position, each year.
+
+## **Question 5**
+
+```{r}
+ggplot(data = summary_nfl_sal, mapping = aes(x = year, y = salary)) + geom_line() + facet_wrap(~ position)
+```
+
+Looking at the data, I can see that the Special Teamer's average salary across the years has stayed the same as the least paid position in the NFL with no real increase or decrease. The other thing I noticed is the recent increase in the average salaries of Defensive Lineman in the NFL. It stayed steady in the middle for a while, but within the last decade, the salary has increased much more.
